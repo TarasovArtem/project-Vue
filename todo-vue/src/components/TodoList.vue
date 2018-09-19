@@ -1,8 +1,8 @@
 <template>
     <div>
-        <input type="text" class="todo-input"  v-model="newTodo" placeholder="What needs to be done" @keyup="addTodo">
+        <input type="text" class="todo-input"  v-model="newTodo" @keyup.enter="addTodo" placeholder="What needs to be done">
         <div v-for="todo in todos" :key="todo.id" class="todo-item">
-            {{todo.title}}
+            {{ todo.title }}
         </div>
     </div>
 </template>
