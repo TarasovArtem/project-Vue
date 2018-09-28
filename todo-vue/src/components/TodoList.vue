@@ -1,6 +1,7 @@
 <template>
     <div>
         <input type="text" class="todo-input"  v-model="newTodo" @keyup.enter="addTodo" placeholder="What needs to be done">
+        <transition-group name="fade" enter-active-class="animated fadeInUp" leave-active-class="animated fadeOutDown">
         <div v-for="(todo, index) in todosFiltered" :key="todo.id" class="todo-item">
             <div class="todo-item-left">
               <input type="checkbox" v-model="todo.completed">
@@ -12,6 +13,7 @@
               &times;
             </div>
         </div>
+        </transition-group>
 
         <div class="extra-container">
           <div><label><input type="checkbox" :checked="!anyRemaining" @change="checkAllTodos"> Check All</label></div>
@@ -26,7 +28,9 @@
           </div>
 
           <div>
-            Clear Completed
+            <transition name="fade">
+            <button v-if="showClearCompletedButton" @click="clearCompleted">Clear Completed</button>   
+            </transition> 
           </div>
           
         </div>
@@ -70,10 +74,17 @@ export default {
         return this.todos;
       } else if (this.filter === 'active') {
         return this.todos.filter(todo => !todo.completed);
-      } else if (this.filter === 'completed')
+      } else if (this.filter === 'completed') {
         return this.todos.filter(todo => todo.completed);
+      }
+
+      return this.todos;
+    },
+    showClearCompletedButton() {
+      return this.todos.filter(todo => todo.completed).length > 0;
     },
   },
+
   directives: {
     focus: {
       inserted: function(el) {
@@ -115,11 +126,16 @@ export default {
     checkAllTodos() {
       this.todos.forEach(todo => (todo.completed = event.target.checked));
     },
+    clearCompleted() {
+      this.todos = this.todos.filter(todo => !todo.completed);
+    },
   },
 };
 </script>
 
 <style lang="scss">
+@import url('https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css');
+
 .todo-input {
   width: 100%;
   padding: 10px 18px;
@@ -136,6 +152,7 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  animation-duration: 0.3s;
 }
 
 .remove-item {
@@ -190,10 +207,10 @@ button {
   font-size: 14px;
   background-color: white;
   appearance: none;
-  box-shadow: 2px 2px 7px 1px lightgreen;
 
   &:hover {
     background: lightgreen;
+    box-shadow: 2px 2px 7px 1px lightgreen;
   }
 
   &:focus {
@@ -203,5 +220,16 @@ button {
 
 .active {
   outline: lightgreen;
+}
+
+// CSS transitions
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.2s;
+}
+
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
 }
 </style>
