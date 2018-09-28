@@ -69,10 +69,9 @@ export default {
       if (this.filter === 'all') {
         return this.todos;
       } else if (this.filter === 'active') {
-          return this.todos.filter(todo => !todo.completed)
+        return this.todos.filter(todo => !todo.completed);
       } else if (this.filter === 'completed')
-        return this.todos.filter(todo => todo.completed)
-      
+        return this.todos.filter(todo => todo.completed);
     },
   },
   directives: {
@@ -191,6 +190,7 @@ button {
   font-size: 14px;
   background-color: white;
   appearance: none;
+  box-shadow: 2px 2px 7px 1px lightgreen;
 
   &:hover {
     background: lightgreen;
