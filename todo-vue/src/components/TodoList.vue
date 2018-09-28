@@ -149,7 +149,7 @@ export default {
 
 .todo-item {
   margin-bottom: 12px;
-  display: flex;
+  display: flexö
   align-items: center;
   justify-content: space-between;
   animation-duration: 0.3s;
