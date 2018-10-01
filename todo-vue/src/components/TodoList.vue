@@ -1,9 +1,11 @@
 <template>
     <div>
         <input type="text" class="todo-input"  v-model="newTodo" @keyup.enter="addTodo" placeholder="What needs to be done">
+        
         <transition-group name="fade" enter-active-class="animated fadeInUp" leave-active-class="animated fadeOutDown">
-        <div v-for="(todo, index) in todosFiltered" :key="todo.id" class="todo-item">
-            <div class="todo-item-left">
+       
+        <todo-item v-for="(todo, index) in todosFiltered" :key="todo.id" :todo="todo" :index="index" @removedTodo="removeTodo">
+            <!--<div class="todo-item-left">
               <input type="checkbox" v-model="todo.completed">
               <div v-if="!todo.editing" @dblclick="editTodo(todo)" class="todo-item-label" :class="{ completed : todo.completed }">
                 {{ todo.title }}</div>
@@ -11,8 +13,8 @@
             </div>
             <div class="remove-item" @click="removeTodo(index)">
               &times;
-            </div>
-        </div>
+            </div>-->
+        </todo-item>
         </transition-group>
 
         <div class="extra-container">
@@ -38,8 +40,13 @@
 </template>
 
 <script>
+import TodoItem  from './TodoItem'
+
 export default {
   name: 'todo-list',
+  components: {
+    TodoItem,
+  },
   data() {
     return {
       newTodo: '',
